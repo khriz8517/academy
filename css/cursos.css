@@ -1,0 +1,477 @@
+body {
+    margin: 0;
+}
+@font-face {
+    font-family: GothamBook;
+    src: url(../fonts/Gotham/GothamBook.ttf);
+}
+
+@font-face {
+    font-family: GothamBold;
+    src: url(../fonts/Gotham/GothamBold.ttf);
+}
+
+@font-face {
+    font-family: GothamLight;
+    src: url(../fonts/Gotham/GothamLight.ttf);
+}
+
+@font-face {
+    font-family: GothamMedium;
+    src: url(../fonts/Gotham/GothamMedium.ttf);
+}
+
+@font-face {
+    font-family: GilroyLight;
+    src: url(../fonts/Gilroy/Gilroy-Light.otf);
+}
+
+@font-face {
+    font-family: GilroyExtraBold;
+    src: url(../fonts/Gilroy/Gilroy-ExtraBold.otf);
+}
+.cs-container {
+    padding: 2em 1em;
+}
+.bg-gray {
+    background-color: #edf3fa;
+}
+.curso-section {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 19px;
+    width: 60em;
+    max-width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    min-height: 22em;
+}
+.cs-steps-container {
+    padding: 1em;
+    position: relative;
+    top: -50px;
+    margin-top: 2em;
+}
+.cs-steps {
+    border-radius: 18px;
+    width: 354px;
+    height: 77px;
+    margin: 0 auto;
+    max-width: 100%;
+}
+.cs-steps1 {
+    background: transparent linear-gradient(90deg, #03a2b0 0%, #38e47d 100%) 0%
+        0% no-repeat padding-box;
+}
+.cs-steps2 {
+    background: transparent linear-gradient(90deg, #e73c3c 0%, #dd4fba 100%) 0%
+        0% no-repeat padding-box;
+}
+.cs-steps3 {
+    background: transparent linear-gradient(90deg, #039401 0%, #f2ff4e 100%) 0%
+        0% no-repeat padding-box;
+}
+.cs-steps4 {
+    background: transparent linear-gradient(90deg, #ff850e 0%, #ffd221 100%) 0%
+        0% no-repeat padding-box;
+}
+.css1-title {
+    color: #1cc198;
+    font-size: 2em;
+    font-family: GothamBook;
+    margin-bottom: 2em;
+}
+.cs-row {
+    width: 100%;
+    display: flex !important;
+    flex-wrap: wrap;
+}
+.css1-fileupload {
+    border: 2px solid #8a8a8a;
+    border-radius: 16px;
+    color: #8a8a8a;
+    width: 307px;
+    height: 180px;
+    margin-bottom: 0.5em;
+    cursor: pointer;
+    padding: 0.3em;
+    position: relative;
+    z-index: 4;
+}
+.css1-fileupload img {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+}
+.css1-fileupload span.cs-icon {
+    font-size: 4em;
+    padding-top: 0.8em;
+}
+span.cs-cancel {
+    position: absolute;
+    top: -6px;
+    right: 6px;
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: #fff;
+    z-index: 100;
+    color: #8a8a8a;
+}
+.acceptedfiles {
+    color: #8a8a8a;
+    font-family: GothamBook;
+    font-size: 0.8em;
+}
+.cs-form {
+    width: 21em;
+    max-width: 100%;
+    position: relative;
+}
+.decoration {
+    background: transparent linear-gradient(180deg, #03a2b0 0%, #38e47d 100%) 0%
+        0% no-repeat padding-box;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    align-self: center;
+}
+.fi-container {
+    width: 90%;
+    margin: 0.5em;
+}
+.form-input {
+    background: #edf3fa 0% 0% no-repeat padding-box;
+    border: 1px solid #cdcdcc;
+    border-radius: 20px;
+    height: 2.2em;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    padding-left: 1.5em;
+    font-family: GilroyLight;
+    color: #8a8a8a;
+}
+.form-input:focus {
+    outline: none;
+}
+.form-input::placeholder {
+    font-family: GilroyLight;
+}
+.selected_options {
+    width: 100%;
+    padding: 0 0 0 2em;
+}
+.selected_options ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0.5em 0;
+}
+.selected_options ul li {
+    background: #707070 0% 0% no-repeat padding-box;
+    border-radius: 15px;
+    opacity: 1;
+    color: #fff;
+    font-size: 10px;
+    padding: 5px 25px 5px 15px;
+    display: inline-block;
+    margin: 3px 5px;
+    font-family: GilroyLight;
+    font-size: 11px;
+}
+.search-choice-close {
+    position: relative;
+    cursor: pointer;
+    right: -12px;
+}
+textarea.form-input {
+    resize: none;
+    height: 6em;
+    padding-top: 1em;
+}
+.jc-se {
+    justify-content: space-evenly;
+}
+.btn-container {
+    padding: 1em;
+}
+.btn-gray {
+    background: #8a8a8a 0% 0% no-repeat padding-box;
+    border-radius: 38px;
+    color: #fff;
+    border: none;
+    padding: 0.7em 2.5em;
+    font-family: GilroyLight;
+    cursor: pointer;
+}
+.btn-green {
+    background: transparent linear-gradient(90deg, #03a2b0 0%, #38e47d 100%) 0%
+        0% no-repeat padding-box;
+    border-radius: 38px;
+    color: #fff;
+    border: none;
+    padding: 0.7em 2.5em;
+    font-family: GilroyLight;
+    cursor: pointer;
+    text-decoration: none;
+}
+a.btn-green {
+    font-size: 0.8em;
+}
+.css2-title {
+    color: #dd4eb5;
+    font-size: 1.9em;
+    font-family: GothamBook;
+    margin-bottom: 2em;
+}
+.css2-contenidos {
+    font-family: "Nunito", sans-serif;
+    padding: 0 1em;
+}
+.msb-option {
+    height: 72px;
+    background: #e4eaec 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 3px #00000029;
+    border-radius: 11px;
+    margin: 1em auto;
+    display: flex;
+    max-width: 100%;
+    width: 40em;
+    position: relative;
+}
+.css2-cancel {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 50%;
+    color: #8a8a8a;
+}
+.msb-option-body {
+    padding: 12px 0.5em 12px 2em;
+    width: 100%;
+}
+.msb-option-header {
+    display: flex;
+    justify-content: space-between;
+}
+.msb-option-sub {
+    color: #526069;
+    font-size: 12px;
+    text-align: left;
+}
+
+.msb-option-title {
+    margin-bottom: 4px;
+}
+.msb-bg {
+    width: 80px;
+    height: 72px;
+    text-align: center;
+    color: #fff;
+}
+.msb-bg span {
+    font-size: 35px;
+    padding: 17px 0 0 0px;
+}
+.msb-option-title input {
+    color: #dd4eb5;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    font-family: "Nunito", sans-serif;
+}
+.msb-option-title input:focus {
+    outline: none;
+}
+.msb-option-title input::placeholder {
+    color: #dd4eb5;
+}
+.css2-hr {
+    max-width: 100%;
+    width: 20em;
+    margin: 0 0 0.5em -0.4em;
+    border: 1px solid #00000029;
+    display: table-cell;
+}
+.msb-bg-red {
+    cursor: pointer;
+    border-radius: 11px 0 0 11px;
+    background: transparent linear-gradient(90deg, #e73c3c 0%, #dd4fba 100%) 0%
+        0% no-repeat padding-box;
+}
+.css2-add-contenido {
+    padding: 1em;
+}
+.css2-addc-btn {
+    background: #f1f4f5 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 3px #00000029;
+    border-radius: 11px;
+    height: 72px;
+    color: #cbcbcb;
+    max-width: 100%;
+    width: 40em;
+    margin: 0 auto;
+    cursor: pointer;
+}
+.css2-addc-btn span {
+    font-size: 3em;
+    padding-top: 0.3em;
+}
+.css2-step-points > div {
+    max-width: 100%;
+    display: inline-flex;
+    padding: 3em 1em;
+}
+.point {
+    width: 13px;
+    height: 13px;
+    border: 0.5972222089767456px solid #282828;
+    border-radius: 50%;
+    margin: 0 0.3em;
+}
+.active {
+    background: transparent linear-gradient(90deg, #e73c3c 0%, #dd4fba 100%) 0%
+        0% no-repeat padding-box;
+    border: none;
+    width: 15px;
+    height: 15px;
+}
+
+.css3-title {
+    color: #59ba1c;
+    font-size: 1.9em;
+    font-family: GothamBook;
+    margin-bottom: 1em;
+}
+
+.css3-preguntas {
+    /* padding: 1em; */
+    display: inline-flex;
+    width: 75%;
+    max-width: 100%;
+    text-align: center;
+}
+.css3p-col-6 {
+    width: 50%;
+}
+.pregunta {
+    background: #edf3fa 0% 0% no-repeat padding-box;
+    border: 1px solid #cdcdcc;
+    border-radius: 28px;
+    margin: 1em;
+    padding: 0.7em 2em 0.9em 2em;
+    font-family: GilroyLight;
+    font-size: 13px;
+    color: #282828;
+    cursor: pointer;
+    display: flex;
+    position: relative;
+}
+.preg-num {
+    background: #6bc222 0% 0% no-repeat padding-box;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    padding: 0.3em 0.14em 0 0.13em;
+    position: absolute;
+    left: -10px;
+    top: 7px;
+}
+.css3-hr {
+    border-top: 1px solid #00000029;
+    width: 70%;
+    margin: 0 auto;
+    text-align: right;
+    font-family: GilroyLight;
+    color: #282828;
+    font-size: 13px;
+    padding: 0.2em 0;
+}
+
+.css4-title {
+    color: #ff850e;
+    font-size: 1.9em;
+    font-family: GothamBook;
+    margin-bottom: 1em;
+}
+.css4-ejercicio {
+    background: #e4eaec 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 2px #00000029;
+    border-radius: 11px;
+    width: 30em;
+    max-width: 100%;
+    padding: 1em;
+    margin: 1em auto;
+    font-family: "Nunito", sans-serif;
+    text-align: left;
+    position: relative;
+    min-height: 7em;
+}
+.css4-ejercicio span {
+    position: absolute;
+    top: -0.5em;
+    right: -0.5em;
+    cursor: pointer;
+}
+.css4-ejercicio input,
+textarea {
+    background: none;
+    border: none;
+    font-family: "Nunito", sans-serif;
+    width: 100%;
+}
+.css4-ejercicio input:focus,
+textarea:focus {
+    outline: none;
+}
+.css4-ejercicio input {
+    color: #ff850e;
+}
+.css4-ejercicio input::placeholder {
+    color: #ff850e;
+}
+.css4-ejercicio textarea {
+    font-size: 0.75em;
+    resize: none;
+    max-height: 7em;
+}
+.ejercicio-hr {
+    border-top: 1px solid #00000029;
+    margin: 0.2em 0 0.5em 0;
+    max-width: 100%;
+    width: 20em;
+}
+.ejercicio-indicacion {
+    color: #526069;
+}
+.css4-adde-btn {
+    background: #e4eaec 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 2px #00000029;
+    border-radius: 11px;
+    width: 30em;
+    max-width: 100%;
+    padding: 1em;
+    margin: 1em auto;
+    min-height: 7em;
+    color: #cbcbcb;
+    cursor: pointer;
+}
+.css4-adde-btn span {
+    font-size: 4em;
+    padding-top: 0.4em;
+}
+.disabled {
+    cursor: not-allowed !important;
+    opacity: 0.5;
+}
+.css5-title {
+    color: #1cc198;
+    font-size: 1.5em;
+    font-family: GothamBook;
+    width: 20em;
+    margin: 0 auto 1em;
+    max-width: 100%;
+}

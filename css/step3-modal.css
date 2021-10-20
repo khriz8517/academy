@@ -1,0 +1,107 @@
+.modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: table;
+    transition: opacity 0.3s ease;
+}
+.modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+.modal-container {
+    max-width: 604px;
+    width: 85%;
+    height: 282px;
+    margin: 0px auto;
+    padding: 20px;
+    text-align: left;
+    transition: all 0.3s ease;
+    box-shadow: 0px 3px 6px #00000029;
+    text-align: center;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    border-radius: 51px;
+    position: relative;
+}
+.modal-header {
+    position: absolute;
+    display: flex;
+    top: -1em;
+}
+.mh-num {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    color: #ffffff;
+    background: transparent linear-gradient(139deg, #03a2b0 0%, #38e47d 100%) 0%
+        0% no-repeat padding-box;
+    display: flex;
+    z-index: 5;
+}
+.mh-num span {
+    font-size: 2em;
+    font-family: GilroyExtraBold;
+    align-self: center;
+    flex: 1;
+}
+.mh-text {
+    /* height: 3em; */
+    background: transparent linear-gradient(165deg, #039401 0%, #abdf37 100%) 0%
+        0% no-repeat padding-box;
+    border-radius: 15px;
+    color: #ffffff;
+    font-size: 0.8em;
+    padding: 1.2em 4em;
+    font-family: GilroyLight;
+    position: relative;
+    left: -1em;
+}
+.modal-form {
+    text-align: left;
+    font-family: GilroyLight;
+    font-size: 0.8em;
+    margin-top: 3em;
+}
+.modal-form textarea {
+    background: #edf3fa 0% 0% no-repeat padding-box;
+    border: 1px solid #cdcdcc;
+    border-radius: 50px;
+    resize: none;
+    height: 4em;
+    padding: 1em 0 1em 1em;
+    overflow: hidden;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    font-family: GilroyLight;
+}
+.modal-form input[type="text"] {
+    background: #edf3fa 0% 0% no-repeat padding-box;
+    border: 1px solid #cdcdcc;
+    border-radius: 50px;
+    height: 0.5em;
+    padding: 1em 0 1em 1em;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    font-family: GilroyLight;
+}
+.modal-form input[type="text"]:focus {
+    outline: none;
+}
+.preg-opt-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.preg-opt-label {
+    width: 100%;
+}
+.preg-opt {
+    width: 80%;
+}
+.opt-rad {
+    width: 20%;
+}

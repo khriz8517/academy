@@ -1,0 +1,290 @@
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SAP - Academy</title>
+<link rel="stylesheet" href="./css/cursos.css" />
+<link rel="stylesheet" href="./css/step3-modal.css" />
+<link rel="stylesheet" href="./css/radiobutton.css" />
+<link
+    href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+    rel="stylesheet"
+/>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    href="https://fonts.googleapis.com/css2?family=Nunito&display=swap"
+    rel="stylesheet"
+/>
+
+<div id="app">
+    <div class="bg-gray cs-container">
+        <div class="curso-section">
+            <div class="cs-steps-container">
+                <div class="cs-steps" :class="class_cs_steps">
+                    <img src="./images/01.svg" />
+                    <img v-if="wizardstep >= 2" src="./images/02.svg" />
+                    <img v-else src="./images/02-off.svg" />
+                    <img v-if="wizardstep >= 3" src="./images/03.svg" />
+                    <img v-else src="./images/03-off.svg" />
+                    <img v-if="wizardstep >= 4" src="./images/04.svg" />
+                    <img v-else src="./images/04-off.svg" />
+                </div>
+            </div>
+            <div v-show="wizardstep == 1" class="cs-step1">
+                <div class="css1-title">Completa los siguientes datos</div>
+                <div class="cs-row jc-se">
+                    <div class="cs-form">
+                        <span
+                            v-if="hasFile"
+                            class="material-icons cs-cancel"
+                            @click="clearInputFile()"
+                        >
+                            cancel
+                        </span>
+                        <div
+                            class="css1-fileupload"
+                            @click="$refs.file.click()"
+                        >
+                            <img v-if="hasFile" :src="file" alt="" />
+                            <span
+                                v-if="!hasFile"
+                                class="material-icons-round cs-icon"
+                            >
+                                control_point
+                            </span>
+                        </div>
+                        <div class="acceptedfiles">
+                            600 x 354 px | .jpg y .png
+                        </div>
+                        <input
+                            v-show="false"
+                            type="file"
+                            ref="file"
+                            name="curso_img_file"
+                            @change="selectedFile"
+                            accept=".jpg,.png"
+                        />
+                    </div>
+                    <div class="cs-form">
+                        <div class="cs-row">
+                            <div class="decoration"></div>
+                            <div class="fi-container">
+                                <input
+                                    class="form-input"
+                                    type="text"
+                                    placeholder="¿Cómo se llama el curso?"
+                                    v-model="curso_obj.step1.curso_name"
+                                />
+                            </div>
+                        </div>
+                        <div class="cs-row">
+                            <div class="decoration"></div>
+                            <div class="fi-container">
+                                <select
+                                    class="form-input"
+                                    v-model="curso_obj.step1.categoria"
+                                >
+                                    <option value="0">
+                                        ¿A qué módulo lo agregamos?
+                                    </option>
+                                    <option
+                                        v-for="item in modulos"
+                                        :value="item.id"
+                                    >
+                                        {( item.mod_short )}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="cs-row">
+                            <div class="decoration"></div>
+                            <div class="fi-container">
+                                <select
+                                    class="form-input"
+                                    @change="participanteOnChange(keyP, $event.target.options[keyP].textContent )"
+                                    v-model="keyP"
+                                >
+                                    <option value="0">
+                                        ¿A quiénes va dirigido?
+                                    </option>
+                                    <option
+                                        v-for="item in participantes"
+                                        :value="item.id"
+                                    >
+                                        {( item.grupo_participante )}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="selected_options">
+                                <ul>
+                                    <li
+                                        class=""
+                                        v-for="(v, i) in tagP"
+                                        :key="v.id"
+                                    >
+                                        <span>{( v.text )}</span>
+                                        <span
+                                            @click="deleteFromTagP(i)"
+                                            class="search-choice-close"
+                                            >x</span
+                                        >
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="cs-row">
+                            <div class="decoration"></div>
+                            <div class="fi-container">
+                                <textarea
+                                    class="form-input"
+                                    cols="30"
+                                    rows="10"
+                                    placeholder="Agrega una descripción al curso"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-container">
+                    <button class="btn-gray">Cancelar</button>
+                    <button
+                        class="btn-green"
+                        @click="wizardstep = 2"
+                        :class="{disabled : validateStep1}"
+                        :disabled="validateStep1"
+                    >
+                        Siguiente
+                    </button>
+                </div>
+            </div>
+            <div v-show="wizardstep == 2" class="cs-step2">
+                <div class="css2-title">Agrega contenido al curso</div>
+                <div class="css2-contenidos">
+                    <css2-option
+                        v-for="(item, index) in contenidos"
+                        :contenido="item"
+                        :index="index"
+                        v-on:remove-contenido="removeContenido($event)"
+                        v-on:update-content="updateContent($event)"
+                        :key="item.id"
+                    ></css2-option>
+                </div>
+                <div class="css2-add-contenido">
+                    <div class="css2-addc-btn" @click="addContenido">
+                        <span class="material-icons-outlined"> add_box </span>
+                    </div>
+                </div>
+                <div class="btn-container">
+                    <button class="btn-gray" @click="wizardstep = 1">
+                        Atrás
+                    </button>
+                    <button
+                        class="btn-green"
+                        @click="wizardstep = 3"
+                        :class="{disabled: contenidos.length == 0}"
+                        :disabled="contenidos.length == 0"
+                    >
+                        Siguiente
+                    </button>
+                </div>
+            </div>
+            <div v-show="wizardstep == 3" class="cs-step3">
+                <div class="css3-title">Agrega preguntas a la evaluación</div>
+                <div class="css3-preguntas">
+                    <div class="css3p-col-6">
+                        <div
+                            v-for="x in range(1, 5)"
+                            class="pregunta"
+                            :class="{disabled: (x > preguntas_enabled && x > 1) }"
+                            @click="num_preg = x, toggleModal(x > preguntas_enabled && x > 1)"
+                        >
+                            <div class="preg-num">{( x )}</div>
+                            <span class="preg-text">
+                                {( css3_preg_title(x) )}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="css3p-col-6">
+                        <div
+                            v-for="x in range(6, 10)"
+                            class="pregunta"
+                            :class="{disabled: (x > preguntas_enabled && x > 1) }"
+                            @click="num_preg = x, toggleModal(x > preguntas_enabled && x > 1)"
+                        >
+                            <div class="preg-num">{( x )}</div>
+                            <span class="preg-text">
+                                {( css3_preg_title(x) )}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="css3-hr">
+                    * Debes de formular al menos dos preguntas antes de
+                    continuar.
+                </div>
+                <div class="btn-container">
+                    <button class="btn-gray" @click="wizardstep = 2">
+                        Atrás
+                    </button>
+                    <button
+                        class="btn-green"
+                        @click="wizardstep = 4"
+                        :class="{disabled: preguntas.length<2}"
+                        :disabled="preguntas.length<2"
+                    >
+                        Siguiente
+                    </button>
+                </div>
+            </div>
+            <div v-show="wizardstep == 4" class="cs-step4">
+                <div class="css4-title">Agrega ejercicios</div>
+                <div class="css4-ejercicios">
+                    <css4-option
+                        v-for="(item, index) in ejercicios"
+                        :ejercicio="item"
+                        :index="index"
+                        v-on:remove-ejercicio="removeEjercicio($event)"
+                        v-on:update-ejercicio="updateEjercicio($event)"
+                        :key="item.id"
+                    ></css4-option>
+                </div>
+                <div class="css4-add-ejercicio">
+                    <div class="css4-adde-btn" @click="addEjercicio">
+                        <span class="material-icons-outlined"> add_box </span>
+                    </div>
+                </div>
+                <div class="btn-container">
+                    <button class="btn-gray" @click="wizardstep = 3">
+                        Atrás
+                    </button>
+                    <button
+                        class="btn-green"
+                        @click="publicarCurso"
+                        :class="{disabled: ejercicios.length == 0}"
+                        :disabled="ejercicios.length == 0"
+                    >
+                        Publicar curso
+                    </button>
+                </div>
+            </div>
+            <div v-show="wizardstep == 5" class="cs-step5">
+                <div class="css5-title">
+                    ¡Felicidades, tu curso ha sido creado y publicado con éxito!
+                </div>
+                <div class="btn-container">
+                    <a :href="link_curso" class="btn-green"> Ver mi curso </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <modal
+        :num_preg="num_preg"
+        v-on:toggle-modal="toggleModal"
+        v-on:guardar-pregunta="guardarPregunta($event)"
+        v-show="showModal"
+    ></modal>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./js/cursos.js"></script>

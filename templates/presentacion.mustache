@@ -1,0 +1,103 @@
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SAP - Academy</title>
+<link rel="stylesheet" href="./css/presentacion.css" />
+<link rel="stylesheet" href="./css/checkbox.css" />
+<link
+    href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+    rel="stylesheet"
+/>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    href="https://fonts.googleapis.com/css2?family=Nunito&display=swap"
+    rel="stylesheet"
+/>
+
+<div id="app">
+    <div class="section bg-gray">
+        <iframe
+            src="https://www.youtube.com/embed/9b186sCvJio"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+        ></iframe>
+        <div class="nav-arrow">
+            <span class="material-icons" @click="scrollToElement('sec-2')">
+                expand_more
+            </span>
+        </div>
+    </div>
+    <div class="section sec-2">
+        <iframe
+            src="https://www.youtube.com/embed/9b186sCvJio"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+        ></iframe>
+        <div class="nav-arrow">
+            <span class="material-icons" @click="scrollToElement('sec-3')">
+                expand_more
+            </span>
+        </div>
+    </div>
+    <div class="section bg-gray sec-3">
+        <div class="s-title">Procesos</div>
+        <div class="s-description">
+            <span>Marca</span> los procesos que ya revisaste para continuar.
+        </div>
+        <div>
+            <div
+                v-for="(item, index) in procesos"
+                class="msb-option"
+                :key="item.id"
+            >
+                <div class="msb-bg msb-bg-red">
+                    <span class="material-icons">{( item.material_icon )}</span>
+                </div>
+                <div class="msb-option-body">
+                    <div class="msb-option-header">
+                        <div class="msb-option-title">
+                            <span
+                                @click="showModal = true, procesos_item = item"
+                                >{( item.proceso_title )}</span
+                            >
+                        </div>
+                        <div class="msb-checkbox">
+                            <label class="container">
+                                <input
+                                    type="checkbox"
+                                    @click="showlinkconditions[item.id] = !showlinkconditions[item.id], showlinkfunc()"
+                                />
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="msb-option-sub">{( item.updated )}</div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-container">
+            <button v-if="!showlinkobj" class="green-grad_btn disabled">
+                Continuar
+            </button>
+            <a
+                v-if="showlinkobj"
+                href="{{ url }}/local/academy/"
+                class="green-grad_btn"
+                >Continuar</a
+            >
+        </div>
+    </div>
+    <modal
+        :procesos_item="procesos_item"
+        v-on:toggle-modal="toggleModal"
+        v-show="showModal"
+    ></modal>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="./js/presentacion.js"></script>

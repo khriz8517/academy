@@ -1,0 +1,73 @@
+:root {
+    --height: 15px;
+}
+
+.points-progress-bar {
+    height: var(--height);
+    background-color: #dcdcdc;
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 3em;
+    overflow: visible;
+}
+
+.pb-porcentaje {
+    width: 0%;
+    height: var(--height);
+    border-radius: 10px;
+    background: transparent linear-gradient(90deg, #005cb9 0%, #1baeff 100%) 0%
+        0% no-repeat padding-box;
+}
+
+.pb-stages {
+    justify-content: space-between;
+}
+
+.stage {
+    text-align: center;
+    position: relative;
+    /* left: -28px; */
+    top: -15px;
+    /* width: 11.111%; */
+    justify-content: space-between;
+}
+
+.stage-number {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    border-radius: 10px;
+    margin: auto;
+    font-size: 13px;
+    font-family: GilroyExtraBold;
+}
+
+.stage-drop {
+    font-size: 10px;
+    padding: 2px 0;
+}
+
+.stage-points {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 2px 2px 2px #00000033;
+    border-radius: 7px;
+    display: inline-flex;
+    padding: 4px 10px;
+    position: absolute;
+    right: -30px;
+}
+
+.icon {
+    color: #ffa215;
+}
+
+.star {
+    width: 20px;
+    padding: 2px 2px 3px;
+}
+
+.point-value {
+    align-self: center;
+    padding-left: 8px;
+}
