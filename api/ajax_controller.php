@@ -36,6 +36,9 @@ try {
 			// $sesskey = $_REQUEST['sesskey'];
 			$returnArr = crearCurso($data);
 			break;
+		case 'getroute':
+			$returnArr = getroute();
+			break;
 	}
 
 } catch (Exception $e) {
@@ -272,6 +275,62 @@ function crearCurso($data){
 	$moduleEN = $DB->get_record("modules", ["name" => "encuesta"], 'id');
 	$moduleSIS = $DB->get_record("modules", ["name" => "evidencia"], 'id');
 
+	
+
+	$revisionmaterial = addModulo($course, $moduleRM, "1. Revision Material", "revisionmaterial");
+	$capacitacion = addModulo($course, $moduleCAP, "2. Capacitación", "capacitacion");
+	$evaluacion = addModulo($course, $moduleEX, "3. Examen", "evaluacion");
+	$encuesta = addModulo($course, $moduleEN, "4. Encuesta", "encuesta");
+	$evidencia = addModulo($course, $moduleSIS, "5. Practicar en el sistema", "evidencia");
+
+	$path_RM = "../materiales/".$course->id;
+	if (!file_exists($path_RM)) {
+		mkdir($path_RM, 0777, true);
+	}
+
+	$numfiles = $_REQUEST['numfiles'];
+	for ($i=0; $i < $numfiles; $i++) {
+		addMateriales($_FILES["file".$i], $course->id, $moduleRM->id, $revisionmaterial->moduleid, $dataobj->materiales[$i]->contenido_name);
+	}
+
+	//! AÑADIR LAS PREGUNTAS Y SUS OPCIONES
+	foreach ($dataobj->preguntas as $key => $value) {
+		$enunciado = $value->enunciado;
+		$pregunta = $DB->insert_record("aq_evaluacion_data", [
+			'course' => $course->id,
+			'pregunta' => $enunciado,
+			'moduleid' => $evaluacion->moduleid,
+			'module' => $moduleEX->id,
+			'created_at' => time(),
+		]);
+		foreach ($value->opciones as $k => $v) {
+			$preg_text = $v->preg_text;
+			$checked = $v->checked == true ? 1 : 0;
+			if($preg_text !== ""){
+				// echo "agregar texto: ".$preg_text;
+				$opcion = $DB->insert_record("aq_evaluacion_options_data", [
+					'opcion' => $preg_text,
+					'is_valid' => $checked,
+					'active' => 1,
+					'preguntaid' => $pregunta,
+					'created_at' => time(),
+				]);
+			}
+		}
+	}
+
+
+	// return $path_RM;
+	return [
+		'course' => $course,
+		'sectionid' => $sectionid,
+		'revisionmaterial' => $revisionmaterial,
+		'evaluacion' => $evaluacion
+	];
+
+}
+
+function addModulo($course, $module, $name, $modulename){
 	$arraybase = (object)[
 		'introeditor' => [
 			'text' => "",
@@ -298,80 +357,33 @@ function crearCurso($data){
 		'competencies' => [],
 		'competency_rule' => "0",
 		'submitbutton' => "Save and display",
-		'completionattendance' => 0
+		'completionattendance' => 0,
+		'name' => $name,
+		'module' => $module->id,
+		'course' => $course->id,
+		'modulename' => $modulename,
+		'add' => $modulename
 	];
 
-	$revisionmaterial = addModulo($arraybase, $course, $moduleRM, "1. Revision Material", "revisionmaterial");
-	$capacitacion = addModulo($arraybase, $course, $moduleCAP, "2. Capacitación", "capacitacion");
-	$evaluacion = addModulo($arraybase, $course, $moduleEX, "3. Examen", "evaluacion");
-	$encuesta = addModulo($arraybase, $course, $moduleEN, "4. Encuesta", "encuesta");
-	$evidencia = addModulo($arraybase, $course, $moduleSIS, "5. Practicar en el sistema", "evidencia");
-
-	$path_RM = "../materiales/".$course->id;
-	if (!file_exists($path_RM)) {
-		mkdir($path_RM, 0777, true);
-	}
-
-	$numfiles = $_REQUEST['numfiles'];
-	for ($i=0; $i < $numfiles; $i++) {
-		addMateriales($_FILES["file".$i], $course->id, $moduleRM->id, 0, $dataobj->materiales[$i]->contenido_name);
-	}
-
-	//! AÑADIR LAS PREGUNTAS Y SUS OPCIONES
-	foreach ($dataobj->preguntas as $key => $value) {
-		$enunciado = $value->enunciado;
-		$pregunta = $DB->insert_record("aq_evaluacion_data", [
-			'course' => $course->id,
-			'pregunta' => $enunciado,
-			'moduleid' => $evaluacion,
-			'module' => $moduleEX->id,
-			'created_at' => time(),
-		]);
-		foreach ($value->opciones as $k => $v) {
-			$preg_text = $v->preg_text;
-			$checked = $v->checked == true ? 1 : 0;
-			if($preg_text !== ""){
-				// echo "agregar texto: ".$preg_text;
-				$opcion = $DB->insert_record("aq_evaluacion_options_data", [
-					'opcion' => $preg_text,
-					'is_valid' => $checked,
-					'active' => 1,
-					'preguntaid' => $pregunta,
-					'created_at' => time(),
-				]);
-			}
-		}
-	}
-
-
-	// return $path_RM;
-	return [
-		'course' => $course,
-		'sectionid' => $sectionid,
-		'revisionmaterial' => $revisionmaterial
-	];
-
-}
-
-function addModulo($arraybase, $course, $module, $name, $modulename){
-	$arraybase->name = $name;
-	$arraybase->module = $module->id;
-	$arraybase->course = $course->id;
-	$arraybase->modulename = $modulename;
-	$arraybase->add = $modulename;
-	return add_moduleinfo($arraybase, $course);
+	// $arraybase->name = $name;
+	// $arraybase->module = $module->id;
+	// $arraybase->course = $course->id;
+	// $arraybase->modulename = $modulename;
+	// $arraybase->add = $modulename;
+	$moduleinfo = add_moduleinfo($arraybase, $course);
+	return $moduleinfo;
 }
 
 function addMateriales($file, $course, $module, $moduleid, $contenido_name){
-	global $DB;
+	global $DB, $CFG;
 	$uploadOk = 0;
 	$check = getimagesize($file["tmp_name"]);
 	$filename = urlencode(preg_replace("/[^a-zA-Z0-9.]/", "", time().$file['name']));
-	$path = "../materiales/".$course."/".$filename;
+	$path = $CFG->wwwroot."/local/academy/materiales/".$course."/".$filename;
 	$fileType = pathinfo($file['name'], PATHINFO_EXTENSION);
 	if($check !== false) {
 		$uploadOk = 1;
-		if(move_uploaded_file($file['tmp_name'], $path)){
+		if(move_uploaded_file($file['tmp_name'], "../materiales/".$course."/".$filename)){
 			//agregar base de datos
 			$material = $DB->insert_record("aq_material_data", [
 				'moduleid' => $moduleid,
@@ -389,4 +401,14 @@ function addMateriales($file, $course, $module, $moduleid, $contenido_name){
 		}
 	}
 	return $uploadOk;
+}
+
+function getroute(){
+	global $CFG;
+	return [
+		'1' => $CFG->wwwroot,
+		'2' => $CFG->dirroot ,
+		'3' => $CFG->wwwroot,
+		'4' => $CFG->wwwroot
+	];
 }

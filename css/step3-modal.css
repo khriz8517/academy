@@ -31,6 +31,8 @@
     position: absolute;
     display: flex;
     top: -1em;
+    padding: 0;
+    border-bottom: none;
 }
 .mh-num {
     width: 3em;

@@ -336,8 +336,16 @@ var app = new Vue({
         this.getModulos();
         this.getParticipantes();
         this.getActividades();
+        this.getroute();
     },
     methods: {
+        getroute: function () {
+            let frm = new FormData();
+            frm.append("request_type", "getroute");
+            axios.post("api/ajax_controller.php", frm).then((res) => {
+                console.log(res.data);
+            });
+        },
         getActividades: function () {
             let frm = new FormData();
             frm.append("request_type", "getActividades");
