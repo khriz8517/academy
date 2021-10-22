@@ -533,6 +533,9 @@ var app = new Vue({
                 })
                 .then((res) => {
                     console.log(res.data);
+                    this.wizardstep = 5;
+                    this.link_curso =
+                        url + "/course/view.php?id=" + res.data.course.id;
                 });
         },
     },

@@ -319,6 +319,17 @@ function crearCurso($data){
 		}
 	}
 
+	foreach ($dataobj->ejercicios as $key => $value) {
+		$ejercicio = $DB->insert_record("ejercicios_data", [
+			'course' => $course->id,
+			'ejercicio' => $value->titulo,
+			'indicaciones' => $value->indicaciones,
+			'moduleid' => $evaluacion->moduleid,
+			'module' => $moduleEX->id,
+			'timecreated' => time(),
+		]);
+	}
+
 
 	// return $path_RM;
 	return [

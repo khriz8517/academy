@@ -216,6 +216,10 @@ textarea.form-input {
 a.btn-green {
     font-size: 0.8em;
 }
+a.btn-green:hover {
+    text-decoration: none;
+    color: #fff;
+}
 .css2-title {
     color: #dd4eb5;
     font-size: 1.9em;
