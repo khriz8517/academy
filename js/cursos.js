@@ -73,7 +73,7 @@ Vue.component("modal", {
             }
             if (index == -1) {
                 this.errors.push(
-                    "Cada pregunta debe tener una respuesta correcta"
+                    "Cada pregunta debe tener una respuesta correct"
                 );
             } else {
                 this.pregunta.opciones[index].checked = true;
@@ -97,7 +97,8 @@ Vue.component("modal", {
     template: `
         <div class="modal-mask">
             <div class="modal-wrapper">
-                <div class="modal-container" style="height: fit-content">
+                
+                <div class="modal-container">
                     <div class="modal-header">
                         <div class="mh-num"><span>{{num_preg}}</span></div>
                         <div class="mh-text">Editar pregunta:</div>
@@ -114,7 +115,8 @@ Vue.component("modal", {
                                     <input type="text" v-model="pregunta.opciones[0].preg_text">
                                 </div>
                                 <div class="opt-rad">
-                                    <label class="container" :class="{disabled: pregunta.opciones[0].preg_text == ''}">Respuesta Correcta
+                                    <label class="container" :class="{disabled: pregunta.opciones[0].preg_text == ''}">
+                                        <span class="label-rc">Respuesta Correcta</span>
                                         <input 
                                             type="radio" 
                                             name="preg_opt_rad" 
@@ -131,7 +133,8 @@ Vue.component("modal", {
                                     <input type="text" v-model="pregunta.opciones[1].preg_text">
                                 </div>
                                 <div class="opt-rad">
-                                    <label class="container" :class="{disabled: pregunta.opciones[1].preg_text == ''}">Respuesta Correcta
+                                    <label class="container" :class="{disabled: pregunta.opciones[1].preg_text == ''}">
+                                        <span class="label-rc">Respuesta Correcta</span>
                                         <input type="radio" name="preg_opt_rad" value="1" v-model="pregunta.opcionindex" :disabled="pregunta.opciones[1].preg_text == ''">
                                         <span class="checkmark"></span>
                                     </label>
@@ -146,7 +149,8 @@ Vue.component("modal", {
                                         :disabled="pregunta.opciones[1].preg_text == ''">
                                 </div>
                                 <div class="opt-rad">
-                                    <label class="container" :class="{disabled: pregunta.opciones[2].preg_text == ''}">Respuesta Correcta
+                                    <label class="container" :class="{disabled: pregunta.opciones[2].preg_text == ''}">
+                                        <span class="label-rc">Respuesta Correcta</span>
                                         <input type="radio" name="preg_opt_rad" value="2" v-model="pregunta.opcionindex" :disabled="pregunta.opciones[2].preg_text == ''">
                                         <span class="checkmark"></span>
                                     </label>
@@ -161,14 +165,15 @@ Vue.component("modal", {
                                         :disabled="pregunta.opciones[2].preg_text == ''">
                                 </div>
                                 <div class="opt-rad">
-                                    <label class="container" :class="{disabled: pregunta.opciones[3].preg_text == ''}">Respuesta Correcta
+                                    <label class="container" :class="{disabled: pregunta.opciones[3].preg_text == ''}">
+                                        <span class="label-rc">Respuesta Correcta</span>
                                         <input type="radio" name="preg_opt_rad" value="3" v-model="pregunta.opcionindex" :disabled="pregunta.opciones[3].preg_text == ''">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <div>
+                        <div class="errors">
                             <p v-for="error in errors">{{error}}</p>
                         </div>
                         <div class="btn-container">
