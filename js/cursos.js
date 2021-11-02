@@ -526,6 +526,9 @@ var app = new Vue({
             let frm = new FormData();
             frm.append("request_type", "crearCurso");
             frm.append("data", JSON.stringify(wizarddata));
+            frm.append("participantes", this.tagP);
+            frm.append("descripcion", this.curso_obj.step1.descripcion);
+            frm.append("step1_file", this.step1_file);
             frm.append("numfiles", this.contenidos.length);
             this.contenidos.forEach(function (item, i) {
                 frm.append("file" + i, item.filedata);

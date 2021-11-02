@@ -260,7 +260,7 @@ function crearCurso($data){
 	$actividades = $DB->get_records_list("modules", "name", ["revisionmaterial", "evaluacion", "encuesta", "evidencia", "capacitacion"]);
 
 	if(count($actividades) < 5){
-		return "Verificar que los modulos revisionmaterial, evaluacion, encuesta, evidencia y capacitacion esten instalados ";
+		return "Verificar que los modulos revisionmaterial, evaluacion, encuesta, evidencia y capacitacion esten instalados";
 	}
 
 	$dataobj = json_decode($data);
@@ -287,6 +287,13 @@ function crearCurso($data){
 	if (!file_exists($path_RM)) {
 		mkdir($path_RM, 0777, true);
 	}
+
+	$path_curso_img = "../curso/".$course->id;
+	if (!file_exists($path_RM)) {
+		mkdir($path_curso_img, 0777, true);
+	}
+
+	addCursoImg($course->id, $_FILES["step1_file"]);
 
 	$numfiles = $_REQUEST['numfiles'];
 	for ($i=0; $i < $numfiles; $i++) {
@@ -414,12 +421,24 @@ function addMateriales($file, $course, $module, $moduleid, $contenido_name){
 	return $uploadOk;
 }
 
-function getroute(){
-	global $CFG;
-	return [
-		'1' => $CFG->wwwroot,
-		'2' => $CFG->dirroot ,
-		'3' => $CFG->wwwroot,
-		'4' => $CFG->wwwroot
-	];
+function addCursoImg($cursoid, $file){
+	global $DB, $CFG;
+	$uploadOk = 0;
+	$check = getimagesize($file["tmp_name"]);
+	$filename = urlencode(preg_replace("/[^a-zA-Z0-9.]/", "", time().$file['name']));
+	$path = $CFG->wwwroot."/local/academy/curso/".$cursoid."/".$filename;
+	if($check !== false) {
+		$uploadOk = 1;
+		if(move_uploaded_file($file['tmp_name'], "../curso/".$cursoid."/".$filename)){
+			//agregar base de datos
+			$curso_img = $DB->insert_record("curso_imagen", [
+				'course' => $cursoid,
+				'path' => $path,
+				'timecreated' => time(),
+			]);
+		}else{
+			$uploadOk = 0;
+		}
+	}
+	return $uploadOk;
 }

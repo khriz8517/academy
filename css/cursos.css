@@ -110,7 +110,7 @@ body {
 }
 span.cs-cancel {
     position: absolute;
-    top: -6px;
+    top: 8px;
     right: 6px;
     cursor: pointer;
     border-radius: 50%;
@@ -124,7 +124,7 @@ span.cs-cancel {
     font-size: 0.8em;
 }
 .cs-form {
-    width: 21em;
+    width: 23em;
     max-width: 100%;
     position: relative;
     padding: 1em;
@@ -143,14 +143,15 @@ span.cs-cancel {
 }
 .form-input {
     background: #edf3fa 0% 0% no-repeat padding-box;
-    border: 1px solid #cdcdcc;
-    border-radius: 20px;
+    background-color: #edf3fa !important;
+    border: 1px solid #cdcdcc !important;
+    border-radius: 20px !important;
     height: 2.2em;
-    width: -webkit-fill-available;
-    width: -moz-available;
-    padding-left: 1.5em;
+    width: -webkit-fill-available !important;
+    width: -moz-available !important;
+    padding-left: 1.5em !important;
     font-family: GilroyLight;
-    color: #8a8a8a;
+    color: #8a8a8a !important;
 }
 .form-input:focus {
     outline: none;
@@ -274,6 +275,7 @@ a.btn-green:hover {
 
 .msb-option-title {
     margin-bottom: 4px;
+    height: 2em;
 }
 .msb-bg {
     width: 80px;
@@ -285,7 +287,7 @@ a.btn-green:hover {
     font-size: 35px;
     padding: 17px 0 0 0px;
 }
-.msb-option-title input {
+.msb-option-title input[type="text"] {
     color: #dd4eb5;
     text-decoration: none;
     font-size: 16px;
@@ -293,9 +295,17 @@ a.btn-green:hover {
     border: none;
     background-color: transparent;
     font-family: "Nunito", sans-serif;
+    padding: 0;
 }
-.msb-option-title input:focus {
+.msb-option-title input[type="text"]:focus {
     outline: none;
+    color: #dd4eb5;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    font-family: "Nunito", sans-serif;
 }
 .msb-option-title input::placeholder {
     color: #dd4eb5;
@@ -422,18 +432,23 @@ a.btn-green:hover {
     position: relative;
     min-height: 7em;
 }
+.ejercicio-title {
+    height: 2em;
+}
 .css4-ejercicio span {
     position: absolute;
     top: -0.5em;
     right: -0.5em;
     cursor: pointer;
+    color: #8a8a8a;
 }
-.css4-ejercicio input,
+.css4-ejercicio input[type="text"],
 textarea {
     background: none;
     border: none;
     font-family: "Nunito", sans-serif;
     width: 100%;
+    padding: 0;
 }
 .css4-ejercicio input:focus,
 textarea:focus {
