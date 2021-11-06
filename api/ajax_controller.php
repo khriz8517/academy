@@ -1,7 +1,7 @@
 <?php
 
-// use core_completion\progress;
-// use core_course\external\course_summary_exporter;
+use core_completion\progress;
+use core_course\external\course_summary_exporter;
 
 error_reporting(E_ALL);
 require_once(dirname(__FILE__) . '/../../../config.php');
@@ -36,8 +36,11 @@ try {
 			// $sesskey = $_REQUEST['sesskey'];
 			$returnArr = crearCurso($data);
 			break;
-		case 'getroute':
-			$returnArr = getroute();
+		case 'obtenerParticipantes':
+			$returnArr = obtenerParticipantes();
+			break;
+		case 'matricularTest':
+			$returnArr = matricularTest();
 			break;
 	}
 
@@ -202,6 +205,7 @@ function getCoursesByUser(){
 	foreach ($data as $key => $value) {
 		$progress = getProgressByCourse($value->id);
 		$nota_intentos = getNotaIntentos($value->id, $USER->id);
+		$img_path = $DB->get_record('curso_imagen', ['course' => $value->id]);
 		array_push($output, [
 			'id' => $value->id,
 			'curso' => $value->fullname,
@@ -209,7 +213,7 @@ function getCoursesByUser(){
 			'mod_id' => $value->category,
 			'progress' => intval($progress),
 			'link' => $CFG->wwwroot.'/course/view.php?id='.$value->id,
-			'curso_img' => null,
+			'curso_img' => $img_path ? $img_path->path : null,
 			'estado' => getCoursesByUserProgress($progress),
 			'nota' => intval($nota_intentos->nota),
 			'intentos' => $nota_intentos->intentos
@@ -266,7 +270,9 @@ function crearCurso($data){
 	$dataobj = json_decode($data);
 	$course = create_course($dataobj->coursedata);
 
-	$sectionid = $DB->get_record("course_sections", ["course" => $course->id], 'id');
+	$sectionid = $DB->get_record("course_sections", ["course" => $course->id, "section" => 0], 'id');
+
+	$DB->update_record("course_sections", ["id" => $sectionid->id, "summary" => $_REQUEST["descripcion"]]);
 
 	// //! INSTANCIA MODULOS/ACTIVIDADES ["revisionmaterial", "evaluacion", "encuesta", "evidencia", "capacitacion"]
 	$moduleRM = $DB->get_record("modules", ["name" => "revisionmaterial"], 'id');
@@ -274,8 +280,6 @@ function crearCurso($data){
 	$moduleEX = $DB->get_record("modules", ["name" => "evaluacion"], 'id');
 	$moduleEN = $DB->get_record("modules", ["name" => "encuesta"], 'id');
 	$moduleSIS = $DB->get_record("modules", ["name" => "evidencia"], 'id');
-
-	
 
 	$revisionmaterial = addModulo($course, $moduleRM, "1. Revision Material", "revisionmaterial");
 	$capacitacion = addModulo($course, $moduleCAP, "2. Capacitación", "capacitacion");
@@ -289,7 +293,7 @@ function crearCurso($data){
 	}
 
 	$path_curso_img = "../curso/".$course->id;
-	if (!file_exists($path_RM)) {
+	if (!file_exists($path_curso_img)) {
 		mkdir($path_curso_img, 0777, true);
 	}
 
@@ -337,13 +341,16 @@ function crearCurso($data){
 		]);
 	}
 
+	$users = matricular($dataobj->participantes);
 
 	// return $path_RM;
 	return [
 		'course' => $course,
 		'sectionid' => $sectionid,
 		'revisionmaterial' => $revisionmaterial,
-		'evaluacion' => $evaluacion
+		'evaluacion' => $evaluacion,
+		'users' => $users,
+		'instance' => $DB->get_record("enrol", ["courseid" => $course->id, "enrol" => "manual"], 'id'),
 	];
 
 }
@@ -441,4 +448,58 @@ function addCursoImg($cursoid, $file){
 		}
 	}
 	return $uploadOk;
+}
+
+function obtenerParticipantes() {
+	global $DB;
+
+	$sql = $DB->get_records_sql("SELECT * FROM mdl_user_info_data WHERE data != '' GROUP BY data");
+	$output = [];
+
+	foreach ($sql as $key => $value) {
+		array_push($output, [
+			"id" => $value->id,
+			"data" => $value->data
+		]);
+	};
+	return $output;
+}
+
+function matricular($grupos){
+	global $DB;
+
+	$sqlarray = [];
+	foreach ($grupos as $key => $value) {
+		array_push($sqlarray, $value->text);
+	}
+
+	$users = $DB->get_records_list("user_info_data", "data", $sqlarray);
+	$output = [];
+
+	foreach($users as $user) {
+		array_push($output, [
+			"id" => $user->userid,
+			"data" => $user->data
+		]);
+	}
+	return $output;
+}
+
+function matricularTest(){
+	global $DB;
+	// $grupos = [
+	// 	"id" => 1,
+	// 	"text" => "Analista"
+	// ];
+	// $sqlarray = [];
+	// foreach ($grupos as $key => $value) {
+	// 	array_push($sqlarray, $value->text);
+	// }
+
+	$users = $DB->get_records_list("user_info_data", "data", ["Analista"]);
+
+	foreach($users as $user) {
+		check_enrol(58, $user->userid, 5); //roleid = 5 (student)
+	}
+	return $users;
 }

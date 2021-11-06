@@ -257,7 +257,7 @@ Vue.component("css2-option", {
                             ref="css2_opt_file"
                             name="css2_opt_file"
                             @change="css2FileSelected"
-                            accept=".jpg, .png, .pdf, .ppt, .docs, .xls, .mp4"
+                            accept=".jpg, .png, .pdf, .ppt, .docx, .xlsx, .mp4"
                         />
                     </div>
                 </div>`,
@@ -341,16 +341,8 @@ var app = new Vue({
         this.getModulos();
         this.getParticipantes();
         this.getActividades();
-        this.getroute();
     },
     methods: {
-        getroute: function () {
-            let frm = new FormData();
-            frm.append("request_type", "getroute");
-            axios.post("api/ajax_controller.php", frm).then((res) => {
-                console.log(res.data);
-            });
-        },
         getActividades: function () {
             let frm = new FormData();
             frm.append("request_type", "getActividades");
@@ -366,33 +358,11 @@ var app = new Vue({
             });
         },
         getParticipantes: function () {
-            let data = [
-                {
-                    id: 1,
-                    grupo_participante: "Finanzas",
-                },
-                {
-                    id: 2,
-                    grupo_participante: "Comunicaciones",
-                },
-                {
-                    id: 3,
-                    grupo_participante: "Operarios",
-                },
-                {
-                    id: 4,
-                    grupo_participante: "Planta",
-                },
-                {
-                    id: 5,
-                    grupo_participante: "Comercial",
-                },
-                {
-                    id: 6,
-                    grupo_participante: "Recursos humanos",
-                },
-            ];
-            this.participantes = data;
+            let frm = new FormData();
+            frm.append("request_type", "obtenerParticipantes");
+            axios.post("api/ajax_controller.php", frm).then((res) => {
+                this.participantes = res.data;
+            });
         },
         toggleModal: function (disableModalBool = false) {
             if (!disableModalBool) {
@@ -461,11 +431,13 @@ var app = new Vue({
                 return "Escribir pregunta";
             }
         },
-        participanteOnChange: function (id, text) {
-            var obj = { id: id, text: text };
+        participanteOnChange: function (id, onchangetext) {
             if (id == "0") {
                 return;
             }
+            let [texto] = this.participantes.filter((item) => item.id == id);
+            var obj = { id: id, text: texto.data };
+
             if (!this.tagP.some((data) => data.id === id)) {
                 this.tagP.push(obj);
             }
@@ -522,11 +494,11 @@ var app = new Vue({
                 materiales: this.contenidos,
                 preguntas: this.preguntas,
                 ejercicios: this.ejercicios,
+                participantes: this.tagP,
             };
             let frm = new FormData();
             frm.append("request_type", "crearCurso");
             frm.append("data", JSON.stringify(wizarddata));
-            frm.append("participantes", this.tagP);
             frm.append("descripcion", this.curso_obj.step1.descripcion);
             frm.append("step1_file", this.step1_file);
             frm.append("numfiles", this.contenidos.length);
@@ -544,6 +516,30 @@ var app = new Vue({
                     this.wizardstep = 5;
                     this.link_curso =
                         url + "/course/view.php?id=" + res.data.course.id;
+
+                    this.matricular(res.data);
+                });
+        },
+        matricular: function (data) {
+            let frm = new FormData();
+            frm.append("add", "◄ Add");
+            frm.append("roleid", 5);
+            frm.append("extendbase", 4);
+            data.users.forEach((element) => {
+                frm.append("addselect[]", element.id);
+            });
+            frm.append("sesskey", sesskey);
+            axios
+                .post(
+                    url +
+                        "/enrol/manual/manage.php?enrolid=" +
+                        data.instance.id,
+                    frm
+                )
+                .then((res) => {
+                    this.wizardstep = 5;
+                    this.link_curso =
+                        url + "/course/view.php?id=" + data.course.id;
                 });
         },
     },
